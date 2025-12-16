@@ -1,3 +1,11 @@
+## Thành viên nhóm
+
+- Nguyễn Đức Công - 23021482
+
+- Nguyễn Anh Khang - 23021594
+
+- Đặng Tuấn Long - 23021614
+
 ## Dữ liệu sử dụng thêm
 
 Ngoài bộ dữ liệu chính của CAFA6, bài toán sử dụng thêm hai bộ dữ liệu tham chiếu bên ngoài:
