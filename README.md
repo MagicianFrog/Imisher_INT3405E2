@@ -1,14 +1,58 @@
-## Thành viên nhóm
+# CAFA6 Protein Function Prediction
 
-- Nguyễn Đức Công - 23021482
+This repository presents our solution for the **CAFA6 Kaggle competition**, aiming to predict protein functions (GO terms) from protein sequences.
 
-- Nguyễn Anh Khang - 23021594
+## Approach
 
-- Đặng Tuấn Long - 23021614
+We propose a hybrid pipeline that combines:
 
-## Dữ liệu sử dụng thêm
+### 1. DIAMOND + K-NN Baseline
 
-Ngoài bộ dữ liệu chính của CAFA6, bài toán sử dụng thêm hai bộ dữ liệu tham chiếu bên ngoài:
+We use DIAMOND to perform fast sequence similarity search against the training database.
 
-- [CAFA5 Dataset](https://kaggle.com/datasets/26690474604463eb72530448b4399425fa8733ebbff0a88476aee6d9d87b816c)
-- [UniProt Dataset](https://kaggle.com/datasets/e67c1fd08273fb181a022cc55fa9fd85bd401c26e03aacf98a8a80884d661eb2)
+- For each query protein, retrieve top-k similar sequences  
+- Apply K-Nearest Neighbors (K-NN) to aggregate GO labels from neighbors  
+- Use similarity scores as weights for label voting  
+
+This serves as a strong homology-based baseline.
+
+---
+
+### 2. Label Propagation
+
+We further refine predictions using label propagation:
+
+- Construct a similarity graph from DIAMOND results  
+- Propagate labels from confident nodes to their neighbors  
+- Smooth and enrich label distributions  
+
+---
+
+### 3. Deep Learning Models (MLP + CNN)
+
+We train two neural models:
+
+- **MLP**: uses engineered features derived from sequence similarity and statistics  
+- **CNN**: operates on raw protein sequences to capture local motifs and patterns  
+
+---
+
+### 4. Final Ensemble
+
+Final predictions are obtained by combining:
+
+- DIAMOND + K-NN outputs  
+- Label propagation results  
+- MLP predictions  
+- CNN predictions  
+
+The ensemble improves robustness and overall performance.
+
+---
+
+## Summary
+
+- DIAMOND + K-NN provides a strong similarity-based baseline  
+- Label propagation improves label coverage  
+- MLP and CNN capture complementary learned representations  
+- Ensemble of all components yields the final submission  
